@@ -39,7 +39,7 @@ Detailed team flow guide: see `WORKING_FLOW.md`.
 ## Project Structure
 
 ```text
-smartAuth/
+secure-auth-api/
   frontend/
     index.html
     style.css
@@ -67,9 +67,15 @@ smartAuth/
     utils/
       AppError.js
       catchAsync.js
-  .env
+  .env.example
   package.json
 ```
+
+## Screenshot
+
+<img width="500" height="300" alt="Screenshot (1626)" src="https://github.com/user-attachments/assets/7221ca77-516c-4350-b84c-4e0fe8ec4585" />    <img width="500" height="300" alt="Screenshot (1627)" src="https://github.com/user-attachments/assets/96f76edf-85c7-4374-8ef5-b13b173445c3" />
+
+
 
 ## Architecture Notes
 
@@ -88,9 +94,9 @@ smartAuth/
 
 ## Environment Variables
 
-Create `smartAuth/.env`:
+Create `secure-auth-api/.env`:
 
-```env
+```env.example
 PORT=4000
 MONGO_URI=mongodb://127.0.0.1:27017/authDB
 JWT_SECRET=your_access_token_secret
@@ -108,7 +114,7 @@ Important:
 ## Installation
 
 ```bash
-cd smartAuth
+cd secure-auth-api
 npm install
 ```
 
@@ -390,24 +396,21 @@ curl -X POST http://localhost:4000/google ^
 
 ## Current Limitations
 
-- No real mail service integration (verification/reset links are logged to console)
 - `users` module is in-memory and separate from auth DB model
-- No request payload validation library in place
 - No automated tests yet
 - Role values are case-sensitive (`Admin`/`user` in model; route check uses `"admin"`)
-- Google login exists as a backend route, but the current frontend does not render a dedicated Google sign-in button yet
 
-## Recommended Improvements
+## Future Improvements
 
-1. Add input validation (Joi/Zod/express-validator)
-2. Integrate email provider (SendGrid, SES, Nodemailer + SMTP)
-3. Move refresh token to secure HTTP-only cookie strategy
-4. Unify users module with MongoDB user model
-5. Add unit/integration tests (Jest + Supertest)
-6. Add linting/formatting and CI
-7. Add `.env.example` and remove real secrets from tracked `.env`
-8. Add a frontend Google Sign-In button that sends the Google ID token to `/google`
+1. Integrate email provider (SendGrid, SES, Nodemailer + SMTP)
+2. Move refresh token to secure HTTP-only cookie strategy
+3. Add unit/integration tests (Jest + Supertest)
+4. Add linting/formatting and CI
+
 
 ## Author
 
 Prashant kumar
+
+MIT License
+Copyright (c) 2026
