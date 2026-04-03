@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Gaming Phone Showcase</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #1c1c1c);
+      background-size: 400% 400%;
+      animation: gradientBG 5s ease infinite;
+      color: white;
+      padding: 40px;
+    }
+
+    @keyframes gradientBG {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    .phone-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .phone-card {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(15px);
+      padding: 25px;
+      border-radius: 20px;
+      transition: 0.4s ease;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .phone-card:hover {
+      transform: translateY(-10px) scale(1.03);
+    }
+
+    .phone-card img {
+      width: 200px;
+      height: auto;
+      margin-bottom: 20px;
+      transition: 0.4s;
+    }
+
+    .phone-card:hover img {
+      transform: scale(1.05);
+    }
+
+    .phone-card h2 {
+      margin-bottom: 10px;
+    }
+
+    .phone-card p {
+      font-size: 14px;
+      opacity: 0.8;
+      margin-bottom: 15px;
+    }
+
+    .phone-card button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .phone-card img {
+      border-radius: 10px;
+    }
+
+    .redmi button {
+      background: #ff3d00;
+      color: white;
+    }
+
+    .redmagic button {
+      background: #ff004f;
+      color: white;
+    }
+
+    .rog button {
+      background: #9c27b0;
+      color: white;
+    }
+
+    .phone-card button:hover {
+      opacity: 0.85;
+    }
+
+    .phone-card.active {
+      transform: scale(0.95);
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <header>
+    <h1>🔥 Gaming Phone Showcase</h1>
+    <p>Premium Performance Smartphones</p>
+  </header>
+
+  <div class="phone-grid">
+
+    <!-- Redmi -->
+    <div class="phone-card redmi">
+      <img
+        src="https://cdn.zeebiz.com/sites/default/files/2024/01/02/274923-redminote13profirstimpressi.jpg?im=FitAndFill=(1200,900)"
+        alt="Redmi Phone">
+      <h2>Redmi Note 13 Pro+</h2>
+      <p>200MP Camera | Dimensity Processor | 120Hz AMOLED</p>
+      <button>Explore</button>
+    </div>
+
+    <!-- RedMagic -->
+    <div class="phone-card redmagic">
+      <img
+        src="https://www.techjuice.pk/wp-content/uploads/2025/10/red-magic-11-pro-launched-featuring-snapdragon-elite-gen-5-chipset-techjuice-198721-133522-940x614.jpg"
+        alt="RedMagic Phone">
+      <h2>RedMagic 9 Pro</h2>
+      <p>Snapdragon 8 Gen 3 | RGB Cooling Fan | Gaming Beast</p>
+      <button>Explore</button>
+    </div>
+
+    <!-- ASUS ROG -->
+    <div class="phone-card rog">
+      <img src="https://tse4.mm.bing.net/th/id/OIP.DeqVSgmK_Ea5IhIi0EQe0wHaHa?rs=1&pid=ImgDetMain&o=7&rm=3"
+        alt="ROG Phone">
+      <h2>ROG Phone 8 Pro</h2>
+      <p>Snapdragon 8 Gen 3 | 165Hz Display | AirTrigger</p>
+      <button>Explore</button>
+    </div>
+
+  </div>
+
+  <script>
+
+    const API_BASE = "http://localhost:4000";
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      window.location.href = "./index.html";
+    }
+
+    const cards = document.querySelectorAll(".phone-card");
+
+    cards.forEach(card => {
+      card.addEventListener("click", () => {
+        card.classList.add("active");
+        setTimeout(() => {
+          card.classList.remove("active");
+        }, 200);
+      });
+    });
+
+    async function verifyAndLoad() {
+      try {
+        const res = await fetch(`${API_BASE}/users`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+
+        if (!res.ok) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("username");
+          window.location.href = "./index.html";
+          return;
+        }
+
+        const data = await res.json();
+        console.log("Protected users data:", data);
+      } catch (err) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("username");
+        window.location.href = "./index.html";
+      }
+    }
+
+    verifyAndLoad();
+
+  </script>
+
+</body>
+
+</html>
